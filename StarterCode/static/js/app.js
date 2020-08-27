@@ -18,11 +18,65 @@ d3.json(url).then(function(data) {
     // console.log("1")
     
     options.text(function(d) {
-    //   console.log(d);
-      return d;
+        //console.log(d.names.key);
+        return d;
     })
     .attr("value", function(d) {
-      return d;
+        return d;
     });
 
+    d3.selectAll("#selDataset").on("change", function(){updatePlotbar(data)});
+
+    function updatePlotbar(data){
+
+        // Use D3 to select the dropdown menu
+        var dropdownMenu = d3.select("#selDataset");
+        // Assign the value of the dropdown menu option to a variable
+        var dataset = dropdownMenu.property("value");
+
+        console.log(dataset)
+
+        Object.entries(data.samples).forEach(([key,value])=>{
+            
+            if (value.id===dataset){
+
+                var trace1={
+                    type: 'bar',
+                    x: value.sample_values.slice(0,9).reverse(),
+                    y: value.otu_ids.slice(0,9).reverse(),
+                    orientation: 'h',
+                    hovertext:value.otu_labels.slice(0,9)
+
+                }
+                
+                var data=[trace1];
+                
+                var layout = {
+                    yaxis:
+                    {
+                        tickprefix: "OTU ",
+                        type: 'category'
+                    }
+                };
+
+
+                Plotly.newPlot('bar', data,layout);
+                console.log(value)
+                console.log(value.otu_ids.slice(0,9))
+               }
+            
+        });
+      
+       
+
+
+
+
+    }
+
 });
+
+function top10sample_values(d){
+
+}
+
