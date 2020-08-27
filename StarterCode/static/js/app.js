@@ -61,8 +61,28 @@ d3.json(url).then(function(data) {
 
 
                 Plotly.newPlot('bar', data,layout);
-                console.log(value)
-                console.log(value.otu_ids.slice(0,9))
+
+                var bubble_trace = {
+                    x: value.otu_ids,
+                    y: value.sample_values,
+                    mode: 'markers',
+                    marker: {
+                      size: value.sample_values
+                    }
+                  };
+                  
+                  var data = [bubble_trace];
+                  
+                //   var layout = {
+                //     xaxis:
+                //     {
+                //         tickprefix: "OTU ",
+                //         type: 'category'
+                //     }
+                //   };
+                  
+                  Plotly.newPlot('bubble', data);
+
                }
             
         });
