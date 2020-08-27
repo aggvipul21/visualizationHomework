@@ -98,7 +98,3 @@ d3.json(url).then(function(data) {
 
 });
 
-function top10sample_values(d){
-
-}
-
