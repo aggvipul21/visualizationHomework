@@ -65,9 +65,11 @@ d3.json(url).then(function(data) {
                 var bubble_trace = {
                     x: value.otu_ids,
                     y: value.sample_values,
+                    text:value.otu_labels,
                     mode: 'markers',
                     marker: {
-                      size: value.sample_values
+                      size: value.sample_values,
+                      color: value.otu_ids
                     }
                   };
                   
