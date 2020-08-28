@@ -68,6 +68,40 @@ d3.json(url).then(function(data) {
             demographicPanel.append("div").text(`location: ${value.location}`);
             demographicPanel.append("div").text(`bbtype: ${value.bbtype}`);
             demographicPanel.append("div").text(`wfreq: ${value.wfreq}`);
+
+            //Build gauge chart showing weekly frequency for selected value
+
+            var data = [
+                {
+                    domain: { x: [0, 1], y: [0, 1] },
+                    value: value.wfreq,
+                    title: { text: "Belly Button Washing frequency" },
+                    type: "indicator",
+                    text: ['0-1','1-2','2-3','3-4','4-5','5-6','6-7','7-8','8-9'],
+                    direction: 'clockwise',
+                    textinfo: 'text',
+                    textposition: 'inside',
+                    mode: "gauge+number",
+                    gauge: {
+                        axis: { range: [null, 9] },
+                        steps: [
+                          { range: [0, 1], color: 'rgb(242,230,255)' },
+                          { range: [1, 2], color: "rgb(230,230,255)" },
+                          { range: [2, 3], color: "rgb(230,242,255)" },
+                          { range: [3, 4], color: "rgb(204,255,247)" },
+                          { range: [4, 5], color: "rgb(51,255,187)" },
+                          { range: [5, 6], color: "rgb(153,255,170)" },
+                          { range: [6, 7], color: "rgb(0,230,77)" },
+                          { range: [7, 8], color: "rgb(0,179,89)" },
+                          { range: [8, 9], color: "rgb(0,179,60)" }
+                          //
+                        ],
+                    }
+                }
+            ];
+            
+            var layout = { width: 600, height: 500, margin: { t: 0, b: 0 } };
+            Plotly.newPlot('gauge', data, layout);
         });
         //Find sample record for id selected in dropdown
         var filteredsample=data.samples.filter(filterdata.bind(this, dataset));
