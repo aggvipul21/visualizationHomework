@@ -61,10 +61,6 @@ d3.json(url).then(function(data) {
             //Clear html before loading data in the demographic table
             demographicPanel.html("");
             // console.log(`id:${value.id}`);
-            // console.log(`ethnicity:${value.ethnicity}`);
-            // console.log(`gender:${value.gender}`);
-            // console.log(`age:${value.age}`);
-            // console.log(`location:${value.location}`);            
             demographicPanel.append("div").text(`id: ${value.id}`);
             demographicPanel.append("div").text(`ethnicity: ${value.ethnicity}`);
             demographicPanel.append("div").text(`gender: ${value.gender}`);
