@@ -1,8 +1,8 @@
-const url = "../data/samples.json";
+const url = "./data/samples.json";
 
 // Fetch the JSON data and console log it
 d3.json(url).then(function(data) {
-    console.log(data);
+    //console.log(data);
     // console.log(data.samples.map(sample=>sample));  
     // console.log(data.samples.map(sample=>sample.id));  
     // console.log(data.samples.map(sample=>sample.otu_ids)); 
@@ -25,6 +25,10 @@ d3.json(url).then(function(data) {
         return d;
     });
 
+    console.log(data.metadata);
+
+    // d3.select("#sample-metadata").text(data.metadata);
+
     d3.selectAll("#selDataset").on("change", function(){updatePlotbar(data)});
 
     function updatePlotbar(data){
@@ -46,7 +50,6 @@ d3.json(url).then(function(data) {
                     y: value.otu_ids.slice(0,9).reverse(),
                     orientation: 'h',
                     hovertext:value.otu_labels.slice(0,9)
-
                 }
                 
                 var data=[trace1];
@@ -69,21 +72,18 @@ d3.json(url).then(function(data) {
                     mode: 'markers',
                     marker: {
                       size: value.sample_values,
+                      colorscale: [
+                        ['0.0', 'rgb(255,255,0)'],
+                        ['0.5','rgb(0,255,85)'],
+                        ['1.0', 'rgb(255,25,179)']
+                      ],
                       color: value.otu_ids
                     }
                   };
                   
                   var data = [bubble_trace];
                   
-                //   var layout = {
-                //     xaxis:
-                //     {
-                //         tickprefix: "OTU ",
-                //         type: 'category'
-                //     }
-                //   };
-                  
-                  Plotly.newPlot('bubble', data);
+                Plotly.newPlot('bubble', data);
 
                }
             
