@@ -40,6 +40,7 @@ d3.json(url).then(function(data) {
     //Added event listener on change of value in dropdown and called function to build plots based on chnaged value in dropdown
     d3.selectAll("#selDataset").on("change", function(){updatePlotbar(data)});
 
+    //Function to add data in demographic table and plot bubble and bar plot based on value selected in drop-down
     function updatePlotbar(data){
 
         // Use D3 to select the dropdown menu
@@ -54,9 +55,27 @@ d3.json(url).then(function(data) {
         var filteredmetadata=data.metadata.filter(filterdata.bind(this, dataset));
         console.log(filteredmetadata);
 
+        //Build demographic table based on filtered metadata
+        Object.entries(filteredmetadata).forEach(([key,value])=>{
+            var demographicPanel=d3.select("#sample-metadata");
+            //Clear html before loading data in the demographic table
+            demographicPanel.html("");
+            // console.log(`id:${value.id}`);
+            // console.log(`ethnicity:${value.ethnicity}`);
+            // console.log(`gender:${value.gender}`);
+            // console.log(`age:${value.age}`);
+            // console.log(`location:${value.location}`);            
+            demographicPanel.append("div").text(`id: ${value.id}`);
+            demographicPanel.append("div").text(`ethnicity: ${value.ethnicity}`);
+            demographicPanel.append("div").text(`gender: ${value.gender}`);
+            demographicPanel.append("div").text(`age: ${value.age}`);
+            demographicPanel.append("div").text(`location: ${value.location}`);
+            demographicPanel.append("div").text(`bbtype: ${value.bbtype}`);
+            demographicPanel.append("div").text(`wfreq: ${value.wfreq}`);
+        });
         //Find sample record for id selected in dropdown
         var filteredsample=data.samples.filter(filterdata.bind(this, dataset));
-        console.log(filteredsample);
+        //console.log(filteredsample);
 
         //Plot bars using filtered sample data
         Object.entries(filteredsample).forEach(([key,value])=>{
