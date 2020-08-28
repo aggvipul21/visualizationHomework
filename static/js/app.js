@@ -2,12 +2,19 @@ const url = "./data/samples.json";
 
 // Fetch the JSON data and console log it
 d3.json(url).then(function(data) {
-    //console.log(data);
+    console.log(data);
     // console.log(data.samples.map(sample=>sample));  
     // console.log(data.samples.map(sample=>sample.id));  
     // console.log(data.samples.map(sample=>sample.otu_ids)); 
     // console.log(data.names.map(name=>name));  
 
+    //Function to filter out the data based on selection of value in drop-down
+    function filterdata(dataset,data) {
+        
+        return data.id==dataset;
+      }
+    
+    //START -- Building values in the dropdown on page load
     var dropDown=d3.select("#selDataset")
 
     var options=dropDown.selectAll("option")
@@ -25,10 +32,12 @@ d3.json(url).then(function(data) {
         return d;
     });
 
-    console.log(data.metadata);
+    //END -- Building values in the dropdown on page load
 
-    // d3.select("#sample-metadata").text(data.metadata);
+    //Called function to build plots on the page based on default value of dropdown
+    updatePlotbar(data);
 
+    //Added event listener on change of value in dropdown and called function to build plots based on chnaged value in dropdown
     d3.selectAll("#selDataset").on("change", function(){updatePlotbar(data)});
 
     function updatePlotbar(data){
@@ -38,7 +47,18 @@ d3.json(url).then(function(data) {
         // Assign the value of the dropdown menu option to a variable
         var dataset = dropdownMenu.property("value");
 
-        console.log(dataset)
+        //Check the value in the variable is same as one selected in the dropdown
+        console.log(dataset);
+
+        //Find metadata record for id selected in dropdown
+        var filteredmetadata=data.metadata.filter(filterdata.bind(this, dataset));
+        console.log(filteredmetadata);
+
+        //Find sample record for id selected in dropdown
+        var filteredsample=data.samples.filter(filterdata.bind(this, dataset));
+        console.log(filteredsample);
+
+        //
 
         Object.entries(data.samples).forEach(([key,value])=>{
             
